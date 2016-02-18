@@ -34,6 +34,9 @@ public class Main {
             if ("1".equals(menu)) {
                 addNew(ids, names, numbers);
             }
+            if("2".equals(menu)) {
+                removeNote(ids, names, numbers);
+            }
             if ("4".equals(menu)) {
                 printOut(ids, names, numbers);
             }
@@ -45,7 +48,6 @@ public class Main {
         }
 
     }
-
 
     public static int findId(boolean[] ids) {
         for (int i = 1; i < ids.length; i++) {
@@ -113,20 +115,20 @@ public class Main {
                         System.out.println("|" + (i) + " " + "|" + " " + names[i] + "|" + " " + numbers[i] + " " + "|");
                         System.out.println("----------------------------------");
                     } else {
-                        System.out.println("Запись с таким именем не найдена");
-
+                        System.out.println("Записи с таким именем не обнаружено");
                     }
+
                 }
             }
         }
         if ("3".equals(search)) {
-            boolean ok = false;
+            boolean okay = false;
             System.out.println("Введите номер телефона абонента: ");
             String searchNumber = in.nextLine();
             for (int i = 1; i < ids.length; i++) {
                 if (searchNumber != null && numbers[i] != null && searchNumber.equals(numbers[i])) {
-                    ok = true;
-                    if (ok) {
+                    okay = true;
+                    if (okay) {
                         System.out.println("__________________________________");
                         System.out.println("|" + (i) + " " + "|" + " " + names[i] + "|" + " " + numbers[i] + " " + "|");
                         System.out.println("----------------------------------");
@@ -137,6 +139,20 @@ public class Main {
             }
         }
     }
+
+    public static void removeNote(boolean[] ids, String[] names, String[] numbers) {
+        System.out.println("Введите номер абонента (ID) для удаления: ");
+        Scanner in = new Scanner(System.in);
+        int searchID = in.nextInt();
+        for (int i = 1; i < ids.length; i++) {
+            if (searchID == i) {
+
+            }
+        }
+    }
+
+
 }
+
 
 

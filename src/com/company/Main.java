@@ -10,7 +10,7 @@ import java.util.Scanner;
 public class Main {
     public static int MAX = 1000;
 
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) throws IOException, NullPointerException {
         Scanner in = new Scanner(System.in);
         String[] names = new String[MAX];
         String[] numbers = new String[MAX];
@@ -21,31 +21,35 @@ public class Main {
         while (true) {
 
 
-            System.out.println("1 - Добавить абонента");
-            System.out.println("2 - Удалить абонента");
+            System.out.println("1 - Добавить контакт");
+            System.out.println("2 - Удалить контакт");
             System.out.println("3 - Обновить");
-            System.out.println("4 - Вывести все");
+            System.out.println("4 - Вывести все контакты");
             System.out.println("5 - Поиск");
             System.out.println("6 - Сортировка");
+            System.out.println("7 - Редактирование");
             System.out.println("0 - Выход");
             String menu = in.nextLine();
             if ("0".equals(menu)) {
                 break;
             }
             if ("1".equals(menu)) {
-                addNew(ids, names, numbers);
+                addNewContact(ids, names, numbers);
             }
             if ("2".equals(menu)) {
-                removeNote(ids);
+                removeContact(ids);
             }
             if ("4".equals(menu)) {
-                printOut(ids, names, numbers);
+                printOutContacts(ids, names, numbers);
             }
             if ("5".equals(menu)) {
-                searchInPhoneBook(ids, names, numbers);
+                searchContactInPhoneBook(ids, names, numbers);
             }
             if ("6".equals(menu)) {
-                noteSorting(ids, names, numbers, MAX);
+                contactSorting(ids, names, numbers);
+            }
+            if ("7".equals(menu)) {
+                editContact(ids, names, numbers);
             } else {
                 System.out.println("Неверный пункт меню");
             }
@@ -62,7 +66,7 @@ public class Main {
         return -1;
     }
 
-    public static void addNew(boolean[] ids, String[] names, String[] numbers) {
+    public static void addNewContact(boolean[] ids, String[] names, String[] numbers) {
         Scanner in = new Scanner(System.in);
         System.out.println("Добавление...");
         System.out.println("Введите имя:");
@@ -75,7 +79,7 @@ public class Main {
         ids[id] = true;
     }
 
-    public static void printOut(boolean[] ids, String[] names, String[] numbers) {
+    public static void printOutContacts(boolean[] ids, String[] names, String[] numbers) {
         System.out.println("Список всех:");
         System.out.println("_______________________________");
         System.out.println("|" + "ID" + "|" + "   NAME   " + "|" + "   NUMBER   " + "|");
@@ -88,7 +92,7 @@ public class Main {
         }
     }
 
-    public static void searchInPhoneBook(boolean[] ids, String[] names, String[] numbers) {
+    public static void searchContactInPhoneBook(boolean[] ids, String[] names, String[] numbers) {
         System.out.println("Поиск...");
         System.out.println("Выберите метод поиска: ");
         System.out.println("1 - по ID");
@@ -144,7 +148,7 @@ public class Main {
         }
     }
 
-    public static void removeNote(boolean[] ids) {
+    public static void removeContact(boolean[] ids) {
         System.out.println("Удаление...");
         System.out.println("Введите номер абонента (ID) для удаления: ");
         Scanner in = new Scanner(System.in);
@@ -156,20 +160,47 @@ public class Main {
         }
     }
 
-    public static void noteSorting(boolean[] ids, String[] names, String[] numbers, int MAX) {
+    public static void contactSorting(boolean[] ids, String[] names, String[] numbers) {
         System.out.println("Сортировка...");
         System.out.println("Выберите тип сортировки:");
         System.out.println("1 - по имени");
         System.out.println("2 - по номеру телефона");
         Scanner in = new Scanner(System.in);
-        int sorting = in.nextInt();
+        String sorting = in.nextLine();
         if ("1".equals(sorting)) {
-            Arrays.sort(names, 1, MAX);
+            Arrays.sort(names);
+            for (int i = 1; i < ids.length; i++) {
+                System.out.print(names[i] + "   ");
+            }
+        }
+        if ("2".equals(sorting)) {
+            Arrays.sort(numbers);
+            for (int i = 1; i < ids.length; i++) {
+                System.out.print(numbers[i] + "   ");
+            }
         }
     }
 
-
+    public static void editContact(boolean[] ids, String[] names, String[] numbers) {
+        Scanner in = new Scanner(System.in);
+        System.out.println("Редактирование...");
+        System.out.println("Введите ID котакта для редактирования");
+        int searchID = in.nextInt();
+        for (int i = 1; i < ids.length; i++) {
+            if (searchID == i) {
+                System.out.println("__________________________________");
+                System.out.println("|" + (i) + " " + "|" + " " + names[i] + "|" + " " + numbers[i] + " " + "|");
+                System.out.println("----------------------------------");
+                System.out.println("Введите новое имя абонента");
+                String newName = in.nextLine();
+                System.out.println("Введите новый телефон абонента");
+                String newNumber = in.nextLine();
+            }
+        }
+    }
 }
+
+
 
 
 

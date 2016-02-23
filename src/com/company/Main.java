@@ -1,6 +1,7 @@
 package com.company;
 
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.Scanner;
 
 /**
@@ -34,19 +35,21 @@ public class Main {
             if ("1".equals(menu)) {
                 addNew(ids, names, numbers);
             }
-            if("2".equals(menu)) {
-                removeNote(ids, names, numbers);
+            if ("2".equals(menu)) {
+                removeNote(ids);
             }
             if ("4".equals(menu)) {
                 printOut(ids, names, numbers);
             }
             if ("5".equals(menu)) {
                 searchInPhoneBook(ids, names, numbers);
+            }
+            if ("6".equals(menu)) {
+                noteSorting(ids, names, numbers, MAX);
             } else {
                 System.out.println("Неверный пункт меню");
             }
         }
-
     }
 
     public static int findId(boolean[] ids) {
@@ -86,6 +89,7 @@ public class Main {
     }
 
     public static void searchInPhoneBook(boolean[] ids, String[] names, String[] numbers) {
+        System.out.println("Поиск...");
         System.out.println("Выберите метод поиска: ");
         System.out.println("1 - по ID");
         System.out.println("2 - по имени");
@@ -140,14 +144,27 @@ public class Main {
         }
     }
 
-    public static void removeNote(boolean[] ids, String[] names, String[] numbers) {
+    public static void removeNote(boolean[] ids) {
+        System.out.println("Удаление...");
         System.out.println("Введите номер абонента (ID) для удаления: ");
         Scanner in = new Scanner(System.in);
         int searchID = in.nextInt();
         for (int i = 1; i < ids.length; i++) {
             if (searchID == i) {
-
+                ids[i] = false;
             }
+        }
+    }
+
+    public static void noteSorting(boolean[] ids, String[] names, String[] numbers, int MAX) {
+        System.out.println("Сортировка...");
+        System.out.println("Выберите тип сортировки:");
+        System.out.println("1 - по имени");
+        System.out.println("2 - по номеру телефона");
+        Scanner in = new Scanner(System.in);
+        int sorting = in.nextInt();
+        if ("1".equals(sorting)) {
+            Arrays.sort(names, 1, MAX);
         }
     }
 

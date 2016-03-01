@@ -8,26 +8,21 @@ import java.util.Scanner;
  */
 public class Main {
     public static int MAX = 1000;
+    public static String NAMES = "names.rt";
+    public static String NUMBERS = "numbers.rt";
+    public static String POSITIONS = "positions.rt";
+    public static String YEARS = "years.rt";
+    public static String MONTHS = "months.rt";
+    public static String DAYS = "days.rt";
 
-    public static void main(String[] args) throws IOException, NullPointerException {
-        /*ObjectInputStream objectInputStream = new ObjectInputStream(
-        * new FileInputStream("db.data"));
-        * String[] names*/
-        /*File file = new File ("data");
-        if (file.exists()) {
-            ObjectInputStream objectInputStream = new ObjectInputStream(
-                    new FileInputStream("db.data"));
-            names = (String[]) objectInputStream.readObject();
-        } else {
-            names = new String[MAX];
-        }*/
+    public static void main(String[] args) throws IOException, NullPointerException, ClassNotFoundException {
+        String[] names = readStringFromFile(NAMES);
         Scanner in = new Scanner(System.in);
-        String[] names = new String[MAX];
-        String[] numbers = new String[MAX];
-        boolean[] ids = new boolean[MAX];
-        int[] years = new int[MAX];
-        int[] months = new int[MAX];
-        int[] days = new int[MAX];
+        String[] numbers = readStringFromFile(NUMBERS);
+        boolean[] ids = readBooleanFromFile(POSITIONS);
+        int[] years = readIntFromFile(YEARS);
+        int[] months = readIntFromFile(MONTHS);
+        int[] days = readIntFromFile(DAYS);
 
 
         System.out.println("Здравствуйте! Вас приветствует телефонный справочник.");
@@ -45,6 +40,18 @@ public class Main {
             System.out.println("0 - Выход");
             String menu = in.nextLine();
             if ("0".equals(menu)) {
+                saveStringToFile(names, NAMES);
+                saveStringToFile(numbers, NUMBERS);
+                saveBooleanToFile(ids, POSITIONS);
+                saveIntToFile(years, YEARS);
+                saveIntToFile(months, MONTHS);
+                saveIntToFile(days, DAYS);
+                readStringFromFile(NAMES);
+                readStringFromFile(NUMBERS);
+                readBooleanFromFile(POSITIONS);
+                readIntFromFile(YEARS);
+                readIntFromFile(MONTHS);
+                readIntFromFile(DAYS);
                 break;
             }
             if ("1".equals(menu)) {
@@ -105,12 +112,12 @@ public class Main {
 
     public static void printOutContacts(boolean[] ids, String[] names, String[] numbers, int[] years, int[] months, int[] days) {
         System.out.println("Список всех:");
-        System.out.println("_______________________________");
-        System.out.println("|" + "ID" + "|" + "   NAME   " + "|" + "   NUMBER   " + "|");
+        System.out.println("_____________________________________________");
+        System.out.println("|" + "ID" + "|" + "   NAME   " + "|" + "   NUMBER   " + "|" + "   BIRTH DATE   " + "|");
         System.out.println("-------------------------------");
         for (int i = 1; i < ids.length; i++) {
             if (ids[i]) {
-                System.out.println("|" + (i) + " " + "|" + " " + names[i] + "|" + " " + numbers[i] + " " + "|");
+                System.out.println("|" + (i) + " " + "|" + " " + names[i] + "|" + " " + numbers[i] + " " + "|" + " " + "|" + " " + years[i] + "." + months[i] + "." + days[i] + " " + "|");
                 System.out.println("------------------------------------");
             }
         }
@@ -126,11 +133,11 @@ public class Main {
         String search = in.nextLine();
         if ("1".equals(search)) {
             System.out.println("Введите ID абонента:");
-            int searchID = in.nextInt();
+            int searchID = Integer.valueOf(in.nextLine());
             for (int i = 1; i < ids.length; i++) {
                 if (searchID == i) {
-                    System.out.println("__________________________________");
-                    System.out.println("|" + (i) + " " + "|" + " " + names[i] + "|" + " " + numbers[i] + " " + "|");
+                    System.out.println("________________________________________________");
+                    System.out.println("|" + (i) + " " + "|" + " " + names[i] + "|" + " " + numbers[i] + " " + "|" + " " + "|" + " " + years[i] + "." + months[i] + "." + days[i] + " " + "|");
                     System.out.println("----------------------------------");
                 }
             }
@@ -143,8 +150,8 @@ public class Main {
                 if (searchName != null && names[i] != null && searchName.equals(names[i])) {
                     ok = true;
                     if (ok) {
-                        System.out.println("__________________________________");
-                        System.out.println("|" + (i) + " " + "|" + " " + names[i] + "|" + " " + numbers[i] + " " + "|");
+                        System.out.println("________________________________________________");
+                        System.out.println("|" + (i) + " " + "|" + " " + names[i] + "|" + " " + numbers[i] + " " + "|" + " " + "|" + " " + years[i] + "." + months[i] + "." + days[i] + " " + "|");
                         System.out.println("----------------------------------");
                     } else {
                         System.out.println("Записи с таким именем не обнаружено");
@@ -161,8 +168,8 @@ public class Main {
                 if (searchNumber != null && numbers[i] != null && searchNumber.equals(numbers[i])) {
                     okay = true;
                     if (okay) {
-                        System.out.println("__________________________________");
-                        System.out.println("|" + (i) + " " + "|" + " " + names[i] + "|" + " " + numbers[i] + " " + "|");
+                        System.out.println("________________________________________________");
+                        System.out.println("|" + (i) + " " + "|" + " " + names[i] + "|" + " " + numbers[i] + " " + "|" + " " + "|" + " " + years[i] + "." + months[i] + "." + days[i] + " " + "|");
                         System.out.println("----------------------------------");
                     } else {
                         System.out.println("Запись с таким номером не найдена");
@@ -176,7 +183,7 @@ public class Main {
         System.out.println("Удаление...");
         System.out.println("Введите номер абонента (ID) для удаления: ");
         Scanner in = new Scanner(System.in);
-        int searchID = in.nextInt();
+        int searchID = Integer.valueOf(in.nextLine());
         for (int i = 1; i < ids.length; i++) {
             if (searchID == i) {
                 ids[i] = false;
@@ -204,7 +211,7 @@ public class Main {
                 }
                 nameSearch[k] = names[minI];
                 k++;
-                System.out.println(minI + " " + names[minI] + " " + numbers[minI]);
+                System.out.println(minI + " " + names[minI] + " " + numbers[minI] + " " + "|" + " " + years[i] + "." + months[i] + "." + days[i] + " " + "|");
 
 
             }
@@ -232,7 +239,6 @@ public class Main {
             }
 
         }
-        saveToFile(names, "filename");
     }
 
 
@@ -263,10 +269,10 @@ public class Main {
         System.out.println("Редактирование...");
         System.out.println("Введите ID котакта для редактирования");
         Scanner in = new Scanner(System.in);
-        int searchID = in.nextInt();
+        int searchID = Integer.valueOf(in.nextLine());
         for (int i = 1; i < ids.length; i++) {
             if (searchID == i) {
-                System.out.println("__________________________________");
+                System.out.println("________________________________________________");
                 System.out.println("|" + (i) + " " + "|" + " " + names[i] + "|" + " " + numbers[i] + " " + "|" + " " + years[i] + "." + months[i] + "." + days[i] + " " + "|");
                 System.out.println("----------------------------------");
             }
@@ -278,24 +284,74 @@ public class Main {
         String number = in.nextLine();
         numbers[searchID] = number;
         System.out.println("Год рождения:");
-        int year = in.nextInt();
+        int year = Integer.valueOf(in.nextLine());
         years[searchID] = year;
         System.out.println("Месяц рождения:");
-        int month = in.nextInt();
+        int month = Integer.valueOf(in.nextLine());
         months[searchID] = month;
         System.out.println("День рождения:");
-        int day = in.nextInt();
+        int day = Integer.valueOf(in.nextLine());
         days[searchID] = day;
 
     }
 
 
-    public static void saveToFile(String[] m, String fileName) throws IOException {
-        ObjectOutputStream objectOutputStream = new ObjectOutputStream(
-                new FileOutputStream(fileName));
+    public static void saveStringToFile(String[] m, String fileName) throws IOException {
+        ObjectOutputStream objectOutputStream = new ObjectOutputStream(new FileOutputStream(fileName));
         objectOutputStream.writeObject(m);
         objectOutputStream.close();
     }
+
+    public static void saveBooleanToFile(boolean[] m, String fileName) throws IOException {
+        ObjectOutputStream objectOutputStream = new ObjectOutputStream(new FileOutputStream(fileName));
+        objectOutputStream.writeObject(m);
+        objectOutputStream.close();
+    }
+
+    public static void saveIntToFile(int[] m, String fileName) throws IOException {
+        ObjectOutputStream objectOutputStream = new ObjectOutputStream(new FileOutputStream(fileName));
+        objectOutputStream.writeObject(m);
+        objectOutputStream.close();
+    }
+
+    public static String[] readStringFromFile(String filename) throws IOException, ClassNotFoundException {
+        String[] mass;
+        File file = new File(filename);
+        if (file.exists()) {
+            ObjectInputStream objectInputStream = new ObjectInputStream(new FileInputStream(filename));
+            mass = (String[]) objectInputStream.readObject();
+        } else {
+            mass = new String[MAX];
+
+        }
+        return mass;
+
+    }
+
+    public static boolean[] readBooleanFromFile(String filename) throws IOException, ClassNotFoundException {
+        boolean[] mass;
+        File file = new File(String.valueOf(filename));
+        if(file.exists()) {
+            ObjectInputStream objectInputStream = new ObjectInputStream(new FileInputStream(String.valueOf(filename)));
+            mass = (boolean[]) objectInputStream.readObject();
+        } else {
+            mass = new boolean[MAX];
+        }
+        return mass;
+    }
+
+    public static int[] readIntFromFile(String filename) throws IOException, ClassNotFoundException {
+        int[] mass;
+        File file = new File(String.valueOf(filename));
+        if (file.exists()) {
+            ObjectInputStream objectInputStream = new ObjectInputStream(new FileInputStream(String.valueOf(filename)));
+            mass = (int[]) objectInputStream.readObject();
+        } else {
+            mass = new int[MAX];
+        }
+        return mass;
+    }
+
 }
 
 

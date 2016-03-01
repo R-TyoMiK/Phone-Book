@@ -103,7 +103,7 @@ public class Main {
         ids[id] = true;
     }
 
-    public static void printOutContacts(boolean[] ids, String[] names, String[] numbers, int[] years, int [] months, int[] days) {
+    public static void printOutContacts(boolean[] ids, String[] names, String[] numbers, int[] years, int[] months, int[] days) {
         System.out.println("Список всех:");
         System.out.println("_______________________________");
         System.out.println("|" + "ID" + "|" + "   NAME   " + "|" + "   NUMBER   " + "|");
@@ -260,26 +260,35 @@ public class Main {
 
 
     public static void editContact(boolean[] ids, String[] names, String[] numbers, int[] years, int[] months, int[] days) {
-        Scanner in = new Scanner(System.in);
         System.out.println("Редактирование...");
         System.out.println("Введите ID котакта для редактирования");
+        Scanner in = new Scanner(System.in);
         int searchID = in.nextInt();
         for (int i = 1; i < ids.length; i++) {
             if (searchID == i) {
                 System.out.println("__________________________________");
-                System.out.println("|" + (i) + " " + "|" + " " + names[i] + "|" + " " + numbers[i] + " " + "|");
+                System.out.println("|" + (i) + " " + "|" + " " + names[i] + "|" + " " + numbers[i] + " " + "|" + " " + years[i] + "." + months[i] + "." + days[i] + " " + "|");
                 System.out.println("----------------------------------");
-                System.out.println("Введите новое имя абонента");
-                String newName = in.nextLine();
-                System.out.println("Введите новый телефон абонента");
-                String newNumber = in.nextLine();
-                int id = findId(ids);
-                names[id] = newName;
-                numbers[id] = newNumber;
-                ids[id] = true;
             }
         }
+        System.out.println("Введите новое имя:");
+        String name = in.nextLine();
+        names[searchID] = name;
+        System.out.println("Введите новый телефон абонента:");
+        String number = in.nextLine();
+        numbers[searchID] = number;
+        System.out.println("Год рождения:");
+        int year = in.nextInt();
+        years[searchID] = year;
+        System.out.println("Месяц рождения:");
+        int month = in.nextInt();
+        months[searchID] = month;
+        System.out.println("День рождения:");
+        int day = in.nextInt();
+        days[searchID] = day;
+
     }
+
 
     public static void saveToFile(String[] m, String fileName) throws IOException {
         ObjectOutputStream objectOutputStream = new ObjectOutputStream(
